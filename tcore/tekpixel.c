@@ -1,11 +1,11 @@
 /*
-** tekpixel.c for rt in
+** tekpixel.c for rt in /home/brout_m/RENDU/INFOGRAPHIE/gfx_raytracer1
 **
-** Made by
+** Made by marc brout
 ** Login   <brout_m@epitech.net>
 **
-** Started on  Thu Feb 25 10:38:19 2016
-** Last update Thu Feb 25 10:39:36 2016 
+** Started on  Thu Feb 25 16:25:37 2016 marc brout
+** Last update Thu Feb 25 16:25:39 2016 marc brout
 */
 
 #include "lapin.h"

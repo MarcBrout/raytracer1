@@ -1,11 +1,11 @@
 /*
-** raytracer.c for rt in /home/brout_m/RENDU/INFOGRAPHIE/gfx_raytracer1/src
+** raytracer.c for rt in /home/brout_m/RENDU/INFOGRAPHIE/gfx_raytracer1
 **
-** Made by
+** Made by marc brout
 ** Login   <brout_m@epitech.net>
 **
-** Started on  Thu Feb 25 12:18:05 2016
-** Last update Thu Feb 25 12:53:24 2016 
+** Started on  Thu Feb 25 16:24:25 2016 marc brout
+** Last update Thu Feb 25 16:24:27 2016 marc brout
 */
 
 #include <stdio.h>

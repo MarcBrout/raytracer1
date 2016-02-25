@@ -1,11 +1,11 @@
 /*
-** misc.c for rt in /home/brout_m/RENDU/INFOGRAPHIE/gfx_raytracer1/src
+** misc.c for rt in /home/brout_m/RENDU/INFOGRAPHIE/gfx_raytracer1
 **
-** Made by
+** Made by marc brout
 ** Login   <brout_m@epitech.net>
 **
-** Started on  Thu Feb 25 12:22:07 2016
-** Last update Thu Feb 25 12:23:01 2016 
+** Started on  Thu Feb 25 16:23:54 2016 marc brout
+** Last update Thu Feb 25 16:23:57 2016 marc brout
 */
 
 int	my_strlen(char	*str)

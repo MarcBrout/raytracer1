@@ -1,11 +1,11 @@
 /*
 ** raytracer.h for rt
 **
-** Made by
+** Made by marc brout
 ** Login   <brout_m@epitech.net>
 **
-** Started on  Thu Feb 25 11:43:20 2016
-** Last update Thu Feb 25 16:03:57 2016 
+** Started on  Thu Feb 25 16:26:01 2016 marc brout
+** Last update Thu Feb 25 16:26:09 2016 marc brout
 */
 
 #ifndef RAYTRACER_H_

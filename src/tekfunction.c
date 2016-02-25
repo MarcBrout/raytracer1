@@ -1,11 +1,11 @@
 /*
-** tekfunction.c for rt
+** tekfunction.c for rt in /home/brout_m/RENDU/INFOGRAPHIE/gfx_raytracer1
 **
 ** Made by marc brout
 ** Login   <brout_m@epitech.net>
 **
-** Started on  Mon Feb 15 11:06:53 2016 marc brout
-** Last update Thu Feb 25 16:00:39 2016 marc brout
+** Started on  Thu Feb 25 16:25:15 2016 marc brout
+** Last update Thu Feb 25 16:25:17 2016 marc brout
 */
 
 #include <stdlib.h>
