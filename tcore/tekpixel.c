@@ -5,14 +5,14 @@
 ** Login   <brout_m@epitech.net>
 **
 ** Started on  Thu Feb 25 16:25:37 2016 marc brout
-** Last update Thu Feb 25 16:25:39 2016 marc brout
+** Last update Fri Feb 26 12:14:54 2016 marc brout
 */
 
 #include "lapin.h"
 
-void		tekpixel(t_bunny_pixelarray	*pix,
-			 t_bunny_position	*pos,
-			 t_color		*color)
+void		tekpixel(t_bunny_pixelarray *pix,
+			 t_bunny_position *pos,
+			 t_color *color)
 {
   t_color	*col;
 

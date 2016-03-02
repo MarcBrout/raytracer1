@@ -5,10 +5,10 @@
 ** Login   <brout_m@epitech.net>
 **
 ** Started on  Thu Feb 25 16:23:54 2016 marc brout
-** Last update Thu Feb 25 16:23:57 2016 marc brout
+** Last update Fri Feb 26 12:11:40 2016 marc brout
 */
 
-int	my_strlen(char	*str)
+int	my_strlen(char *str)
 {
   int	i;
 

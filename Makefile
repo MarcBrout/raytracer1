@@ -5,7 +5,7 @@
 ## Login   <brout_m@epitech.net>
 ##
 ## Started on  Thu Dec 17 13:59:43 2015 marc brout
-## Last update Thu Feb 25 16:04:44 2016 marc brout
+## Last update Wed Mar  2 17:44:05 2016 marc brout
 ##
 
 SRCP	= ./src/
@@ -15,12 +15,16 @@ SRCP2	= ./tcore/
 SRC     = $(SRCP2)tekpixel.c \
 	$(SRCP2)tekray.c \
 	$(SRCP)rtload.c \
+	$(SRCP)error.c \
+	$(SRCP)keyboard.c \
 	$(SRCP)rtdisplay.c \
 	$(SRCP)raytracer.c \
 	$(SRCP)misc.c \
 	$(SRCP)my_strdup.c \
 	$(SRCP)tekfunction.c \
-	$(SRCP)my_getnbr.c
+	$(SRCP)my_getnbr.c \
+	$(SRCP)display_formes.c \
+	$(SRCP)sphere.c
 
 OBJS    = $(SRC:.c=.o)
 

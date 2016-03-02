@@ -5,11 +5,11 @@
 ** Login   <brout_m@epitech.net>
 **
 ** Started on  Wed Oct  7 10:24:46 2015 marc brout
-** Last update Thu Feb 25 16:23:36 2016 marc brout
+** Last update Fri Feb 26 12:12:07 2016 marc brout
 */
 
 #include <stdlib.h>
-#include "raytracer.h"x
+#include "raytracer.h"
 
 char	*my_strdup(const char *src)
 {

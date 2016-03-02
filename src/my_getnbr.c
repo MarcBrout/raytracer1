@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 **
 ** Started on  Mon Oct 12 19:01:57 2015 marc brout
-** Last update Thu Feb 25 16:17:28 2016 marc brout
+** Last update Fri Feb 26 16:03:53 2016 marc brout
 */
 
 int		neg(const char *str)
@@ -49,7 +49,6 @@ int		my_getnbr(const char *str)
   return (total * isneg);
 }
 
-
 double		my_getdouble(const char *str)
 {
   double	total;
@@ -64,10 +63,11 @@ double		my_getdouble(const char *str)
   total = my_getnbr(str) * isneg;
   i = -1;
   while (str[++i] && str[i] != '.');
-  i++;
+  if (str[i])
+    i++;
   dec = 0;
   power = 1;
-  while ((str[i] >= '0') && (str[i] <= '9'))
+  while (str[i] && (str[i] >= '0') && (str[i] <= '9'))
     {
       dec = ((dec * 10) + (str[i] - 48));
       power *= 10;

@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 **
 ** Started on  Thu Feb 25 16:24:55 2016 marc brout
-** Last update Thu Feb 25 16:24:56 2016 marc brout
+** Last update Wed Mar  2 16:35:54 2016 marc brout
 */
 
 #include <sys/types.h>
@@ -15,8 +15,8 @@
 #include <stdlib.h>
 #include "raytracer.h"
 
-t_bunny_pixelarray		*init_pix(t_bunny_ini_scope	*scope,
-					  const char		*field)
+t_bunny_pixelarray		*init_pix(t_bunny_ini_scope *scope,
+					  const char *field)
 {
   int			fd;
   t_bunny_pixelarray	*tmp;
@@ -33,25 +33,22 @@ t_bunny_pixelarray		*init_pix(t_bunny_ini_scope	*scope,
   return (NULL);
 }
 
-void			init_pngs(t_formes		*object,
-				  t_bunny_ini_scope	*scope)
+void			init_pngs(t_formes *object,
+				  t_bunny_ini_scope *scope)
 {
   (void)object;
   (void)scope;
 }
 
-void			init_object(t_formes		*obj,
-				    t_bunny_ini		*ini,
-				    t_bunny_ini_scope	*scope)
+void			init_object(t_formes *obj,
+				    t_bunny_ini *ini,
+				    t_bunny_ini_scope *scope)
 {
   obj->name = my_strdup(bunny_ini_scope_name(ini, scope));
   obj->type = my_strdup(GET_F(scope, "type", 0));
   obj->pos.x = my_getdouble((char *)(GET_F(scope, "pos", 0)));
   obj->pos.y = my_getdouble((char *)(GET_F(scope, "pos", 1)));
   obj->pos.z = my_getdouble((char *)(GET_F(scope, "pos", 2)));
-  obj->origin.x = my_getdouble((char *)(GET_F(scope, "origin", 0)));
-  obj->origin.y = my_getdouble((char *)(GET_F(scope, "origin", 1)));
-  obj->origin.z = my_getdouble((char *)(GET_F(scope, "origin", 2)));
   obj->radius = my_getdouble((char *)(GET_F(scope, "radius", 0)));
   obj->size.x = my_getdouble((char *)(GET_F(scope, "height", 0)));
   obj->size.y = my_getdouble((char *)(GET_F(scope, "width", 0)));
@@ -81,17 +78,19 @@ t_formes		*rtload(const char *file)
   t_formes		*tmp;
 
   if (!(ini = bunny_load_ini(file)) || !(scope = bunny_ini_first(ini)))
-    return (NULL);
+    return (my_puterror_null(NO_FILE));
   if (!(objects = bunny_malloc(sizeof(t_formes))))
-    return (NULL);
+    return (my_puterror_null(ALLOC_ERR));
   objects->next = NULL;
+  init_object(objects, ini, scope);
   while ((scope = bunny_ini_next(ini, scope)) != LAST_SCOPE)
     {
       if (!(tmp = bunny_malloc(sizeof(t_formes))))
-	return (NULL);
+	return (my_puterror_null(ALLOC_ERR));
       init_object(tmp, ini, scope);
       add_ptr_last(objects, tmp);
       tmp = tmp->next;
     }
+  bunny_delete_ini(ini);
   return (objects);
 }
