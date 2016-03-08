@@ -5,9 +5,10 @@
 ** Login   <brout_m@epitech.net>
 **
 ** Started on  Wed Mar  2 16:20:46 2016 marc brout
-** Last update Wed Mar  2 18:16:10 2016 marc brout
+** Last update Tue Mar  8 23:02:31 2016 marc brout
 */
 
+#include <stdio.h>
 #include <math.h>
 #include "raytracer.h"
 
@@ -17,12 +18,8 @@ void		calc_abc(t_formes *sphere,
 			 t_vector *abc)
 {
   abc->x = vec->x * vec->x + vec->y * vec->y + vec->z * vec->z;
-  abc->y = 2 * ((vec->x * (ori->x - sphere->pos.x))
-		+ vec->y * (ori->y - sphere->pos.y)
-		+ vec->z * (ori->z - sphere->pos.z));
-  abc->z = (((ori->x - sphere->pos.x) * (ori->x - sphere->pos.x) +
-	     (ori->y - sphere->pos.y) * (ori->y - sphere->pos.y) +
-	     (ori->z - sphere->pos.z) * (ori->z - sphere->pos.z))
+  abc->y = 2 * (vec->x * ori->x + vec->y * ori->y + vec->z * ori->z);
+  abc->z = ((ori->x * ori->x + ori->y * ori->y + ori->z * ori->z)
 	    - sphere->radius * sphere->radius);
 }
 

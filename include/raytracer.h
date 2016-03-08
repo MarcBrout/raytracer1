@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 **
 ** Started on  Thu Feb 25 16:26:01 2016 marc brout
-** Last update Wed Mar  2 17:58:29 2016 marc brout
+** Last update Tue Mar  8 22:39:09 2016 marc brout
 */
 
 #ifndef RAYTRACER_H_
@@ -19,6 +19,8 @@
 # define ALLOC_ERR "Memory allocation error.\n"
 # define SCE_WIDTH 1280
 # define SCE_HEIGHT 1024
+# define RAD(x) ((x) * M_PI / 180)
+# define DEG(x) ((x) * 180 / M_PI)
 
 #include "lapin.h"
 
@@ -34,6 +36,7 @@ typedef struct			s_formes
   char				*name;
   char				*type;
   t_vector			pos;
+  t_vector			rot;
   double			radius;
   t_bunny_accurate_position	size;
   double			intensity;
@@ -43,13 +46,38 @@ typedef struct			s_formes
   struct s_formes		*next;
 }				t_formes;
 
+typedef struct		s_math
+{
+  double		cos[360];
+  double		sin[360];
+  double		rotx[3][3];
+  double		roty[3][3];
+  double		rotz[3][3];
+  t_bunny_position	screen_info[2];
+  t_vector		origin;
+  t_vector		ray;
+  t_vector		simpleori;
+  t_vector		simpleray;
+}			t_math;
+
 typedef struct		s_raytracer
 {
+  t_math		math;
   t_bunny_pixelarray	*scene;
   t_bunny_window	*win;
   t_formes		*formes;
   t_color		background;
 }			t_raytracer;
+
+/*
+** math.c
+*/
+
+void	init_cos_sin(t_math *math);
+void	init_matrices(t_math *math);
+void	set_rotx(t_math *math, int teta);
+void	set_roty(t_math *math, int teta);
+void	set_rotz(t_math *math, int teta);
 
 /*
 ** tcore
@@ -110,9 +138,8 @@ t_formes		*rtload(const char *file);
 */
 
 void			calcs(t_raytracer *raytracer);
-void			rtcalc(t_formes *formes,
-			       t_vector *ray,
-			       t_vector *origin);
+void			rtcalc(t_raytracer *raytracer,
+			       t_formes *formes);
 void			background(t_bunny_pixelarray *scene,
 				   unsigned int color);
 t_bunny_response	rayt_loop(void *data);

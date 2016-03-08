@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 **
 ** Started on  Thu Feb 25 16:24:55 2016 marc brout
-** Last update Wed Mar  2 16:35:54 2016 marc brout
+** Last update Tue Mar  8 22:03:48 2016 marc brout
 */
 
 #include <sys/types.h>
@@ -49,6 +49,12 @@ void			init_object(t_formes *obj,
   obj->pos.x = my_getdouble((char *)(GET_F(scope, "pos", 0)));
   obj->pos.y = my_getdouble((char *)(GET_F(scope, "pos", 1)));
   obj->pos.z = my_getdouble((char *)(GET_F(scope, "pos", 2)));
+  obj->rot.x = (int)my_getdouble((char *)(GET_F(scope, "rot", 0)));
+  obj->rot.y = (int)my_getdouble((char *)(GET_F(scope, "rot", 1)));
+  obj->rot.z = (int)my_getdouble((char *)(GET_F(scope, "rot", 2)));
+  obj->rot.x = (((int)obj->rot.x % 360) + 360) % 360;
+  obj->rot.y = (((int)obj->rot.y % 360) + 360) % 360;
+  obj->rot.z = (((int)obj->rot.z % 360) + 360) % 360;
   obj->radius = my_getdouble((char *)(GET_F(scope, "radius", 0)));
   obj->size.x = my_getdouble((char *)(GET_F(scope, "height", 0)));
   obj->size.y = my_getdouble((char *)(GET_F(scope, "width", 0)));

@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 **
 ** Started on  Thu Feb 25 16:24:25 2016 marc brout
-** Last update Wed Mar  2 18:27:57 2016 marc brout
+** Last update Tue Mar  8 22:28:12 2016 marc brout
 */
 
 #include <stdio.h>
@@ -16,8 +16,8 @@ void		tekrayd(const t_bunny_position *screen_info,
 		       double *x, double *y, double *z)
 {
   *x = -(screen_info[0].x / 2) + screen_info[1].x;
-  *y = -(screen_info[0].y / 2) + screen_info[1].y;
-  *z = 100;
+  *y = (screen_info[0].y / 2) - screen_info[1].y;
+  *z = 500;
 }
 
 void		aff_scene(t_raytracer *rayt)
@@ -40,6 +40,8 @@ void		debug(t_formes *formes)
       printf("type = %s\n", tmp->type);
       printf("pos : x = %f, y = %f, z = %f\n", tmp->pos.x,
 	     tmp->pos.y, tmp->pos.z);
+      printf("rot : x = %f, y = %f, z = %f\n", tmp->rot.x,
+	     tmp->rot.y, tmp->rot.z);
       printf("radius = %f\n", tmp->radius);
       printf("intensity = %f\n\n", tmp->intensity);
       tmp = tmp->next;
@@ -56,6 +58,8 @@ int		raytracer(const char *scene)
       !(rayt.win = bunny_start(SCE_WIDTH, SCE_HEIGHT, 0, "Raytracer1")))
     return (my_puterror(ALLOC_ERR, 1));
   debug(rayt.formes);
+  init_cos_sin(&rayt.math);
+  init_matrices(&rayt.math);
   aff_scene(&rayt);
   return (0);
 }
