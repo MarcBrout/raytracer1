@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 **
 ** Started on  Wed Mar  2 16:20:46 2016 marc brout
-** Last update Tue Mar  8 23:02:31 2016 marc brout
+** Last update Thu Mar 10 15:37:29 2016 marc brout
 */
 
 #include <stdio.h>
@@ -45,20 +45,20 @@ double		calc_closest_intersection(t_vector *abc, double delta)
 
 void		sphere(t_formes *sphere,
 		       t_vector *vec,
-		       t_vector *origin)
+		       t_vector *origin, int i)
 {
   t_vector	abc;
   double	delta;
 
   calc_abc(sphere, vec, origin, &abc);
   if ((delta = calc_delta(&abc)) < 0)
-    sphere->found = 0;
+    sphere->found[i] = 0;
   else
     {
-      sphere->found = 1;
+      sphere->found[i] = 1;
       if (!delta)
-	sphere->ray_length = -(abc.y / (2 * abc.x));
+	sphere->ray_length[i] = -(abc.y / (2 * abc.x));
       else
-	sphere->ray_length = calc_closest_intersection(&abc, delta);
+	sphere->ray_length[i] = calc_closest_intersection(&abc, delta);
     }
 }

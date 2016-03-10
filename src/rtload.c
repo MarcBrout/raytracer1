@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 **
 ** Started on  Thu Feb 25 16:24:55 2016 marc brout
-** Last update Tue Mar  8 22:03:48 2016 marc brout
+** Last update Thu Mar 10 16:42:29 2016 marc brout
 */
 
 #include <sys/types.h>
@@ -15,37 +15,13 @@
 #include <stdlib.h>
 #include "raytracer.h"
 
-t_bunny_pixelarray		*init_pix(t_bunny_ini_scope *scope,
-					  const char *field)
-{
-  int			fd;
-  t_bunny_pixelarray	*tmp;
-  const char		*str;
-
-  if ((str = GET_F(scope, field, 0)))
-    {
-      if ((fd = open(str, O_RDWR) > 0))
-  	{
-	  tmp = bunny_load_pixelarray(str);
-	  return (tmp);
-  	}
-    }
-  return (NULL);
-}
-
-void			init_pngs(t_formes *object,
-				  t_bunny_ini_scope *scope)
-{
-  (void)object;
-  (void)scope;
-}
-
 void			init_object(t_formes *obj,
 				    t_bunny_ini *ini,
 				    t_bunny_ini_scope *scope)
 {
   obj->name = my_strdup(bunny_ini_scope_name(ini, scope));
   obj->type = my_strdup(GET_F(scope, "type", 0));
+  obj->spot = my_strdup(GET_F(scope, "spot", 0));
   obj->pos.x = my_getdouble((char *)(GET_F(scope, "pos", 0)));
   obj->pos.y = my_getdouble((char *)(GET_F(scope, "pos", 1)));
   obj->pos.z = my_getdouble((char *)(GET_F(scope, "pos", 2)));
@@ -93,9 +69,40 @@ t_formes		*rtload(const char *file)
     {
       if (!(tmp = bunny_malloc(sizeof(t_formes))))
 	return (my_puterror_null(ALLOC_ERR));
-      init_object(tmp, ini, scope);
-      add_ptr_last(objects, tmp);
-      tmp = tmp->next;
+      if ((my_strcmp((char *)GET_F(scope, "type", 0), "spot")))
+	{
+	  init_object(tmp, ini, scope);
+	  add_ptr_last(objects, tmp);
+	  tmp = tmp->next;
+	}
+    }
+  bunny_delete_ini(ini);
+  return (objects);
+}
+
+t_formes		*rtload_spots(const char *file)
+{
+  t_bunny_ini		*ini;
+  t_bunny_ini_scope	*scope;
+  t_formes		*objects;
+  t_formes		*tmp;
+
+  if (!(ini = bunny_load_ini(file)) || !(scope = bunny_ini_first(ini)))
+    return (my_puterror_null(NO_FILE));
+  if (!(objects = bunny_malloc(sizeof(t_formes))))
+    return (my_puterror_null(ALLOC_ERR));
+  objects->next = NULL;
+  init_object(objects, ini, scope);
+  while ((scope = bunny_ini_next(ini, scope)) != LAST_SCOPE)
+    {
+      if (!(tmp = bunny_malloc(sizeof(t_formes))))
+	return (my_puterror_null(ALLOC_ERR));
+      if (!(my_strcmp((char *)GET_F(scope, "type", 0), "spot")))
+	{
+	  init_object(tmp, ini, scope);
+	  add_ptr_last(objects, tmp);
+	  tmp = tmp->next;
+	}
     }
   bunny_delete_ini(ini);
   return (objects);

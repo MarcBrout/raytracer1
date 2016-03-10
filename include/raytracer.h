@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 **
 ** Started on  Thu Feb 25 16:26:01 2016 marc brout
-** Last update Tue Mar  8 22:39:09 2016 marc brout
+** Last update Thu Mar 10 15:41:28 2016 marc brout
 */
 
 #ifndef RAYTRACER_H_
@@ -35,14 +35,17 @@ typedef struct			s_formes
 {
   char				*name;
   char				*type;
+  char				*spot;
   t_vector			pos;
   t_vector			rot;
   double			radius;
   t_bunny_accurate_position	size;
   double			intensity;
   t_color			color;
-  char				found;
-  double			ray_length;
+  char				found[2];
+  double			ray_length[2];
+  t_vector			simpleori;
+  t_vector			simpleray;
   struct s_formes		*next;
 }				t_formes;
 
@@ -56,8 +59,6 @@ typedef struct		s_math
   t_bunny_position	screen_info[2];
   t_vector		origin;
   t_vector		ray;
-  t_vector		simpleori;
-  t_vector		simpleray;
 }			t_math;
 
 typedef struct		s_raytracer
@@ -66,8 +67,33 @@ typedef struct		s_raytracer
   t_bunny_pixelarray	*scene;
   t_bunny_window	*win;
   t_formes		*formes;
+  t_formes		*spots;
   t_color		background;
 }			t_raytracer;
+
+/*
+** plan.c
+*/
+
+void	plan(t_formes *plan,
+	     t_vector *vec,
+	     t_vector *origin,
+	     int i);
+
+/*
+** sphere.c
+*/
+
+void	sphere(t_formes *sphere,
+	       t_vector *vec,
+	       t_vector *origin, int i);
+double	calc_closest_intersection(t_vector *abc,
+				  double delta);
+double	calc_delta(t_vector *abc);
+void	calc_abc(t_formes *sphere,
+		 t_vector *vec,
+		 t_vector *ori,
+		 t_vector *abc);
 
 /*
 ** math.c
@@ -95,8 +121,11 @@ void	tekray(const t_bunny_position	*screen_info,
 ** display_formes.c
 */
 
+void		calc_ombre(t_raytracer *rt,
+			   t_formes *forme);
 t_formes	*closest_forme(t_formes *formes);
-void		rtdisp(t_bunny_pixelarray *scene,
+void		rtdisp(t_raytracer *raytracer,
+		       t_bunny_pixelarray *scene,
 		       t_bunny_position *pixel,
 		       t_formes *formes);
 
@@ -104,6 +133,7 @@ void		rtdisp(t_bunny_pixelarray *scene,
 ** Miscs
 */
 
+int	my_strcmp(char *str1, char *str2);
 int	my_strlen(char *str);
 int	my_getnbr(const char *str);
 double	my_getdouble(const char *str);
@@ -123,16 +153,13 @@ void	aff_scene(t_raytracer *rayt);
 ** Ini Loading : rtload.c
 */
 
-t_bunny_pixelarray	*init_pix(t_bunny_ini_scope *scope,
-				  const char *field);
-void			init_pngs(t_formes *objects,
-				 t_bunny_ini_scope *scope);
 void			init_object(t_formes *obj,
 				    t_bunny_ini *ini,
 				    t_bunny_ini_scope *scope);
 void			add_ptr_last(t_formes *object,
 				     t_formes *last);
 t_formes		*rtload(const char *file);
+t_formes		*rtload_spots(const char *file);
 /*
 ** Display : src/rtdisplay.c
 */
