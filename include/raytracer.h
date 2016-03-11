@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 **
 ** Started on  Thu Feb 25 16:26:01 2016 marc brout
-** Last update Thu Mar 10 15:41:28 2016 marc brout
+** Last update Fri Mar 11 20:55:39 2016 marc brout
 */
 
 #ifndef RAYTRACER_H_
@@ -42,8 +42,13 @@ typedef struct			s_formes
   t_bunny_accurate_position	size;
   double			intensity;
   t_color			color;
-  char				found[2];
+  char				found[3];
   double			ray_length[2];
+  double			cos;
+  t_vector			lightray;
+  t_vector			normal;
+  t_vector			realori;
+  t_vector			realray;
   t_vector			simpleori;
   t_vector			simpleray;
   struct s_formes		*next;
@@ -68,13 +73,23 @@ typedef struct		s_raytracer
   t_bunny_window	*win;
   t_formes		*formes;
   t_formes		*spots;
+  int			nbspot;
   t_color		background;
 }			t_raytracer;
+
+/*
+** OBJETS PERDUS
+*/
+
+double	check_ombre(t_formes *formes, t_formes *cur);
 
 /*
 ** plan.c
 */
 
+void	spotplan(t_formes *forme,
+		 t_formes *spot,
+		 t_math *math);
 void	plan(t_formes *plan,
 	     t_vector *vec,
 	     t_vector *origin,
@@ -84,6 +99,9 @@ void	plan(t_formes *plan,
 ** sphere.c
 */
 
+void	spotsphere(t_formes *forme,
+		   t_formes *spot,
+		   t_math *math);
 void	sphere(t_formes *sphere,
 	       t_vector *vec,
 	       t_vector *origin, int i);
@@ -121,6 +139,8 @@ void	tekray(const t_bunny_position	*screen_info,
 ** display_formes.c
 */
 
+void		calc_luminosity(t_raytracer *raytracer,
+				t_formes *forme);
 void		calc_ombre(t_raytracer *rt,
 			   t_formes *forme);
 t_formes	*closest_forme(t_formes *formes);

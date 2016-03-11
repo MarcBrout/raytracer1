@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 **
 ** Started on  Thu Feb 25 16:24:25 2016 marc brout
-** Last update Thu Mar 10 19:35:25 2016 marc brout
+** Last update Fri Mar 11 13:01:42 2016 marc brout
 */
 
 #include <stdio.h>
@@ -60,6 +60,18 @@ void		debug(t_formes *formes, t_formes *spots)
     }
 }
 
+int		count_forme(t_formes *formes)
+{
+  t_formes	*tmp;
+  int		i;
+
+  tmp = formes;
+  i = 0;
+  while ((tmp = tmp->next))
+    i += 1;
+  return (i);
+}
+
 int		raytracer(const char *scene)
 {
   t_raytracer	rayt;
@@ -67,6 +79,7 @@ int		raytracer(const char *scene)
   if (!(rayt.formes = rtload(scene)) ||
       !(rayt.spots = rtload_spots(scene)))
     return (my_puterror(LOAD_ERR, 1));
+  rayt.nbspot = count_forme(rayt.spots);
   if (!(rayt.scene = bunny_new_pixelarray(SCE_WIDTH, SCE_HEIGHT)) ||
       !(rayt.win = bunny_start(SCE_WIDTH, SCE_HEIGHT, 0, "Raytracer1")))
     return (my_puterror(ALLOC_ERR, 1));

@@ -3,12 +3,13 @@
 **
 ** Made by marc brout
 ** Login   <brout_m@epitech.net>
-n**
+**
 ** Started on  Thu Feb 25 16:24:38 2016 marc brout
-** Last update Fri Mar 11 00:22:10 2016 marc brout
+** Last update Fri Mar 11 21:00:37 2016 marc brout
 */
 
 #include <stdio.h>
+#include <math.h>
 #include "raytracer.h"
 
 void			calcs(t_raytracer *rayt)
@@ -24,13 +25,10 @@ void			calcs(t_raytracer *rayt)
       rayt->math.screen_info[1].x = 0;
       while (rayt->math.screen_info[1].x < rayt->math.screen_info[0].x)
 	{
-	  /* if (rayt->math.screen_info[1].x == rayt->math.screen_info[0].x / 2 && rayt->math.screen_info[1].y == rayt->math.screen_info[0].y / 2) */
-	  /*   { */
 	      tekrayd(rayt->math.screen_info, &rayt->math.ray.x,
 		      &rayt->math.ray.y, &rayt->math.ray.z);
 	      rtcalc(rayt, rayt->formes);
 	      rtdisp(rayt, rayt->scene, &rayt->math.screen_info[1], rayt->formes);
-	    /* } */
 	      rayt->math.screen_info[1].x += 1;
 	}
       rayt->math.screen_info[1].y += 1;
@@ -90,48 +88,95 @@ void		sub_vector(t_vector *output,
   output->z = one->z - two->z;
 }
 
-void		calc_ombre(t_raytracer *rt, t_formes *forme)
+void		spotplan(t_formes *forme,
+			 UNUSED t_formes *spot,
+			 t_math *math)
 {
+  t_vector	tmp;
+
+  tmp.x = 0;
+  tmp.y = 500;
+  tmp.z = 0;
+  simple_position(&tmp, &forme->normal, math);
+}
+
+void		spotsphere(t_formes *forme,
+			   UNUSED t_formes *spot,
+			   t_math *math)
+{
+  simple_position(&forme->simpleori, &forme->normal, math);
+}
+
+void		calc_cos(t_formes *forme,
+			 t_formes *spot)
+{
+  double	norme_ray;
+  double	norme_normal;
+  double	scalaire;
+
+  norme_ray = sqrt(spot->lightray.x * spot->lightray.x +
+		   spot->lightray.y * spot->lightray.y +
+		   spot->lightray.z * spot->lightray.z);
+  norme_normal = sqrt(forme->normal.x * forme->normal.x +
+		      forme->normal.y * forme->normal.y +
+		      forme->normal.z * forme->normal.z);
+  scalaire = (spot->lightray.x * forme->normal.x +
+	      spot->lightray.y * forme->normal.y +
+	      spot->lightray.z * forme->normal.z);
+  spot->cos = scalaire / (norme_ray * norme_normal);
+  /* printf("%f\n", spot->cos); */
+}
+
+void		calc_luminosity(t_raytracer *rt, t_formes *fo)
+{
+  t_formes	*tmp;
+  void		(*func)(t_formes *, t_formes *, t_math *);
+
+  tmp = rt->spots;
+  set_rotx(&rt->math, (int)fo->rot.x);
+  set_roty(&rt->math, (int)fo->rot.y);
+  set_rotz(&rt->math, (int)fo->rot.z);
+  if (fo->spot && (func = (void (*)(t_formes *, t_formes *, t_math *))
+		   tekfunction(fo->spot)))
+    func(fo, tmp, &rt->math);
+  while ((tmp = tmp->next))
+    calc_cos(fo, tmp);
+}
+
+
+void		calc_ombre(t_raytracer *rt, t_formes *fo)
+{
+
   t_formes	*tmp;
   t_formes	*tmp2;
   void		(*func)(t_formes *, t_vector *, t_vector *, int);
-  t_vector	realori;
-  t_vector	realray;
-  t_vector	simpleori;
-  t_vector	simpleray;
 
   tmp = rt->spots;
   calc_new_simpleori(&rt->math.origin, &rt->math.ray,
-		     forme->ray_length[0], &realori);
-  /* printf("%s\n", forme->name); */
-  /* printf("K= %f\n", forme->ray_length[0]); */
-  /* printf("realori : x=%f, y=%f, z=%f\n", realori.x, realori.y,realori.z); */
-  /* printf("tekray : x=%f, y=%f, z=%f\n", rt->math.ray.x, rt->math.ray.y,rt->math.ray.z); */
+		     fo->ray_length[0], &fo->realori);
   while ((tmp = tmp->next))
     {
       tmp2 = rt->formes;
-      sub_vector(&realray, &tmp->pos, &realori);
+      sub_vector(&fo->realray, &tmp->pos, &fo->realori);
       while ((tmp2 = tmp2->next))
-	if (tmp2->type &&
-	    (func = (void (*)(t_formes *, t_vector  *, t_vector *, int))
-	     tekfunction(tmp2->type)))
+	if (tmp2->type && (func = (void (*)(t_formes *, t_vector  *, t_vector *, int))
+			   tekfunction(tmp2->type)))
 	  {
 	    set_rotx(&rt->math, (360 - (int)tmp2->rot.x) % 360);
 	    set_roty(&rt->math, (360 - (int)tmp2->rot.y) % 360);
 	    set_rotz(&rt->math, (360 - (int)tmp2->rot.z) % 360);
-	    /* printf("spotpos : x=%f, y=%f, z=%f\n", tmp->pos.x, tmp->pos.y,tmp->pos.z); */
-	    /* printf("realray : x=%f, y=%f, z=%f\n", realray.x, realray.y,realray.z); */
-	    sub_vector(&simpleori, &realori, &tmp2->pos);
-	    simple_position(&simpleori, &simpleori, &rt->math);
-	    simple_position(&realray, &simpleray, &rt->math);
-	    /* printf("simpleori : x=%f, y=%f, z=%f\n", simpleori.x, simpleori.y,simpleori.z); */
-	    /* printf("simpleray : x=%f, y=%f, z=%f\n", simpleray.x, simpleray.y,simpleray.z); */
-	    func(tmp2, &simpleray, &simpleori, 1);
-	    /* printf("found = %d, %f\n", tmp2->found[1], */
-	    /* 	   tmp2->ray_length[1]); */
+	    sub_vector(&tmp2->simpleori, &fo->realori, &tmp2->pos);
+	    simple_position(&tmp2->simpleori, &tmp2->simpleori, &rt->math);
+	    simple_position(&fo->realray, &tmp2->simpleray, &rt->math);
+	    func(tmp2, &tmp2->simpleray, &tmp2->simpleori, 1);
+	    if (tmp2 == fo)
+	      {
+		tmp->lightray.x = tmp2->simpleray.x;
+		tmp->lightray.y = tmp2->simpleray.y;
+		tmp->lightray.z = tmp2->simpleray.z;
+	      }
 	  }
-	else if (tmp2 == forme)
-	  forme->found[1] = 0;
+      tmp->found[2] = (check_ombre(rt->formes, fo)) ? 1 : 0;
     }
 }
 
@@ -154,8 +199,6 @@ void		rtcalc(t_raytracer *rt, t_formes *formes)
 	  simple_position(&tmp->simpleori, &tmp->simpleori, &rt->math);
 	  simple_position(&rt->math.ray, &tmp->simpleray, &rt->math);
 	  func(tmp, &tmp->simpleray, &tmp->simpleori, 0);
-	  /* printf("inter oldori : x=%f, y=%f, z=%f\n", tmp->simpleori.x, tmp->simpleori.y, tmp->simpleori.z); */
-
 	}
     }
 }

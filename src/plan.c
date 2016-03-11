@@ -1,11 +1,11 @@
 /*
-1;2802;0c** plan.c for raytracer
+** plan.c for raytracer
 **
 ** Made by marc brout
 ** Login   <brout_m@epitech.net>
 **
 ** Started on  Tue Mar  8 15:33:29 2016 marc brout
-** Last update Thu Mar 10 22:46:13 2016 marc brout
+** Last update Fri Mar 11 20:58:25 2016 marc brout
 */
 
 #include <stdio.h>
