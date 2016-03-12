@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 **
 ** Started on  Sat Mar 12 17:29:56 2016 marc brout
-** Last update Sat Mar 12 17:38:42 2016 marc brout
+** Last update Sat Mar 12 18:26:35 2016 marc brout
 */
 
 #include <stdlib.h>
@@ -16,13 +16,14 @@ void		free_list(t_formes *formes)
   t_formes	*tmp;
   t_formes	*tmp2;
 
-  tmp = formes->next;
+  tmp = formes;
   while (tmp->next)
     {
       tmp2 = tmp->next;
-      free(tmp->name);
-      free(tmp);
+      bunny_free(tmp->name);
+      bunny_free(tmp);
       tmp = tmp2;
     }
-  free(formes);
+  bunny_free(tmp->name);
+  bunny_free(tmp);
 }

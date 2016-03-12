@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 **
 ** Started on  Thu Feb 25 16:24:25 2016 marc brout
-** Last update Sat Mar 12 17:35:46 2016 marc brout
+** Last update Sat Mar 12 18:58:59 2016 marc brout
 */
 
 #include <unistd.h>
@@ -22,8 +22,9 @@ void		tekrayd(const t_bunny_position *screen_info,
 void		aff_scene(t_raytracer *rayt)
 {
   bunny_set_key_response(my_key);
-  /* bunny_set_loop_main_function(rayt_loop); */
-  /* bunny_loop(rayt->win, 25, rayt); */  bunny_delete_clipable(&rayt->scene->clipable);
+  bunny_set_loop_main_function(rayt_loop);
+  bunny_loop(rayt->win, 25, rayt);
+  bunny_delete_clipable(&rayt->scene->clipable);
   bunny_stop(rayt->win);
 }
 

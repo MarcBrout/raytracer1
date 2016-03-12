@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 **
 ** Started on  Thu Feb 25 16:24:55 2016 marc brout
-** Last update Sat Mar 12 16:50:17 2016 marc brout
+** Last update Sat Mar 12 18:54:40 2016 marc brout
 */
 
 #include <sys/types.h>
@@ -63,17 +63,15 @@ t_formes		*rtload(const char *file)
     return (my_puterror_null(NO_FILE));
   if (!(objects = bunny_malloc(sizeof(t_formes))))
     return (my_puterror_null(ALLOC_ERR));
-  objects->next = NULL;
   init_object(objects, ini, scope);
   while ((scope = bunny_ini_next(ini, scope)) != LAST_SCOPE)
     {
-      if (!(tmp = bunny_malloc(sizeof(t_formes))))
-	return (my_puterror_null(ALLOC_ERR));
       if (my_getnbr((char *)GET_F(scope, "type", 0)) < 2)
 	{
+	  if (!(tmp = bunny_malloc(sizeof(t_formes))))
+	    return (my_puterror_null(ALLOC_ERR));
 	  init_object(tmp, ini, scope);
 	  add_ptr_last(objects, tmp);
-	  tmp = tmp->next;
 	}
     }
   bunny_delete_ini(ini);
@@ -91,17 +89,15 @@ t_formes		*rtload_spots(const char *file)
     return (my_puterror_null(NO_FILE));
   if (!(objects = bunny_malloc(sizeof(t_formes))))
     return (my_puterror_null(ALLOC_ERR));
-  objects->next = NULL;
   init_object(objects, ini, scope);
   while ((scope = bunny_ini_next(ini, scope)) != LAST_SCOPE)
     {
-      if (!(tmp = bunny_malloc(sizeof(t_formes))))
-	return (my_puterror_null(ALLOC_ERR));
       if (my_getnbr((char *)GET_F(scope, "type", 0)) == 2)
 	{
+	  if (!(tmp = bunny_malloc(sizeof(t_formes))))
+	    return (my_puterror_null(ALLOC_ERR));
 	  init_object(tmp, ini, scope);
 	  add_ptr_last(objects, tmp);
-	  tmp = tmp->next;
 	}
     }
   bunny_delete_ini(ini);

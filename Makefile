@@ -5,7 +5,7 @@
 ## Login   <brout_m@epitech.net>
 ##
 ## Started on  Thu Dec 17 13:59:43 2015 marc brout
-## Last update Sat Mar 12 17:34:54 2016 marc brout
+## Last update Sat Mar 12 18:58:46 2016 marc brout
 ##
 
 SRCP	= ./src/
@@ -36,7 +36,7 @@ OBJS    = $(SRC:.c=.o)
 
 NAME    = raytracer1
 
-CC      = gcc -rdynamic -g
+CC      = gcc
 
 CFLAGS  = -W -Wall -Werror
 
