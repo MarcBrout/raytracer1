@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 **
 ** Started on  Thu Feb 25 16:26:01 2016 marc brout
-** Last update Fri Mar 11 20:55:39 2016 marc brout
+** Last update Sat Mar 12 16:11:12 2016 marc brout
 */
 
 #ifndef RAYTRACER_H_
@@ -77,19 +77,42 @@ typedef struct		s_raytracer
   t_color		background;
 }			t_raytracer;
 
+
+
 /*
-** OBJETS PERDUS
+** calculs.c
 */
 
-double	check_ombre(t_formes *formes, t_formes *cur);
+void	multiply_by_mat(t_vector *result, t_vector *calc, double rot[3][3]);
+void	simple_position(t_vector *input, t_vector *output, t_math *math);
+void	translate_cam(t_vector *forme, t_vector *origin, t_vector *output);
+void	calc_new_simpleori(t_vector *simpleori, t_vector *simpleray,
+			   double len, t_vector *output);
+void	sub_vector(t_vector *output, t_vector *one, t_vector *two);
+
+/*
+** ombres.c
+*/
+
+void	spotplan(t_formes *forme, t_formes *spot, t_math *math);
+void	spotsphere(t_formes *forme, t_formes *spot, t_math *math);
+void	calc_luminosity(t_raytracer *raytracer, t_formes *forme);
+void	calc_ombre(t_raytracer *rt, t_formes *forme);
+void	sub_shadow(t_raytracer *rt, t_formes *fo, t_formes *tmp2,
+		   t_formes *tmp);
+
+/*
+** check_formes.c
+*/
+
+t_formes	*closest_forme(t_formes *formes);
+double		check_ombre(t_formes *formes, t_formes *cur);
+t_formes	*biggest_cos(t_formes *spots);
 
 /*
 ** plan.c
 */
 
-void	spotplan(t_formes *forme,
-		 t_formes *spot,
-		 t_math *math);
 void	plan(t_formes *plan,
 	     t_vector *vec,
 	     t_vector *origin,
@@ -99,9 +122,6 @@ void	plan(t_formes *plan,
 ** sphere.c
 */
 
-void	spotsphere(t_formes *forme,
-		   t_formes *spot,
-		   t_math *math);
 void	sphere(t_formes *sphere,
 	       t_vector *vec,
 	       t_vector *origin, int i);
@@ -139,10 +159,6 @@ void	tekray(const t_bunny_position	*screen_info,
 ** display_formes.c
 */
 
-void		calc_luminosity(t_raytracer *raytracer,
-				t_formes *forme);
-void		calc_ombre(t_raytracer *rt,
-			   t_formes *forme);
 t_formes	*closest_forme(t_formes *formes);
 void		rtdisp(t_raytracer *raytracer,
 		       t_bunny_pixelarray *scene,
@@ -184,6 +200,7 @@ t_formes		*rtload_spots(const char *file);
 ** Display : src/rtdisplay.c
 */
 
+void			calc_cos(t_formes *forme, t_formes *spot);
 void			calcs(t_raytracer *raytracer);
 void			rtcalc(t_raytracer *raytracer,
 			       t_formes *formes);

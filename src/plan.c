@@ -5,10 +5,9 @@
 ** Login   <brout_m@epitech.net>
 **
 ** Started on  Tue Mar  8 15:33:29 2016 marc brout
-** Last update Fri Mar 11 20:58:25 2016 marc brout
+** Last update Sat Mar 12 15:04:46 2016 marc brout
 */
 
-#include <stdio.h>
 #include "raytracer.h"
 
 void	plan(t_formes *plan,

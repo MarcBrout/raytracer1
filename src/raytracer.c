@@ -5,10 +5,9 @@
 ** Login   <brout_m@epitech.net>
 **
 ** Started on  Thu Feb 25 16:24:25 2016 marc brout
-** Last update Fri Mar 11 13:01:42 2016 marc brout
+** Last update Sat Mar 12 15:03:38 2016 marc brout
 */
 
-#include <stdio.h>
 #include <unistd.h>
 #include "raytracer.h"
 
@@ -27,37 +26,6 @@ void		aff_scene(t_raytracer *rayt)
   bunny_loop(rayt->win, 25, rayt);
   bunny_delete_clipable(&rayt->scene->clipable);
   bunny_stop(rayt->win);
-}
-
-void		debug(t_formes *formes, t_formes *spots)
-{
-  t_formes	*tmp;
-  t_formes	*tmpspot;
-
-  tmp = formes->next;
-  tmpspot = spots->next;
-  while (tmp)
-    {
-      printf("name = %s\n", tmp->name);
-      printf("type = %s\n", tmp->type);
-      printf("pos : x = %f, y = %f, z = %f\n", tmp->pos.x,
-	     tmp->pos.y, tmp->pos.z);
-      printf("rot : x = %f, y = %f, z = %f\n", tmp->rot.x,
-	     tmp->rot.y, tmp->rot.z);
-      printf("radius = %f\n", tmp->radius);
-      printf("intensity = %f\n", tmp->intensity);
-      tmp = tmp->next;
-    }
-  printf("\n|============================|\n\n");
-  while (tmpspot)
-    {
-      printf("name = %s\n", tmpspot->name);
-      printf("type = %s\n", tmpspot->type);
-      printf("pos : x = %f, y = %f, z = %f\n", tmpspot->pos.x,
-	     tmpspot->pos.y, tmpspot->pos.z);
-      printf("intensity = %f\n\n", tmpspot->intensity);
-      tmpspot = tmpspot->next;
-    }
 }
 
 int		count_forme(t_formes *formes)
@@ -83,7 +51,6 @@ int		raytracer(const char *scene)
   if (!(rayt.scene = bunny_new_pixelarray(SCE_WIDTH, SCE_HEIGHT)) ||
       !(rayt.win = bunny_start(SCE_WIDTH, SCE_HEIGHT, 0, "Raytracer1")))
     return (my_puterror(ALLOC_ERR, 1));
-  debug(rayt.formes, rayt.spots);
   init_cos_sin(&rayt.math);
   init_matrices(&rayt.math);
   aff_scene(&rayt);
