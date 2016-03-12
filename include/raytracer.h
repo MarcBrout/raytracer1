@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 **
 ** Started on  Thu Feb 25 16:26:01 2016 marc brout
-** Last update Sat Mar 12 16:11:12 2016 marc brout
+** Last update Sat Mar 12 17:37:08 2016 marc brout
 */
 
 #ifndef RAYTRACER_H_
@@ -34,8 +34,8 @@ typedef struct		s_vector
 typedef struct			s_formes
 {
   char				*name;
-  char				*type;
-  char				*spot;
+  int				type;
+  int				spot;
   t_vector			pos;
   t_vector			rot;
   double			radius;
@@ -66,6 +66,9 @@ typedef struct		s_math
   t_vector		ray;
 }			t_math;
 
+typedef void		(*inter)(t_formes *, t_vector *, t_vector *, int);
+typedef void		(*omb)(t_formes *, t_formes *, t_math *);
+
 typedef struct		s_raytracer
 {
   t_math		math;
@@ -75,9 +78,21 @@ typedef struct		s_raytracer
   t_formes		*spots;
   int			nbspot;
   t_color		background;
+  inter			tabinter[2];
+  omb			tabomb[2];
 }			t_raytracer;
 
+/*
+** free.c
+*/
 
+void	free_list(t_formes *formes);
+
+/*
+** functab.c
+*/
+
+void	init_functab(t_raytracer *rt);
 
 /*
 ** calculs.c

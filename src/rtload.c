@@ -5,7 +5,7 @@
 ** Login   <brout_m@epitech.net>
 **
 ** Started on  Thu Feb 25 16:24:55 2016 marc brout
-** Last update Thu Mar 10 16:42:29 2016 marc brout
+** Last update Sat Mar 12 16:50:17 2016 marc brout
 */
 
 #include <sys/types.h>
@@ -20,8 +20,8 @@ void			init_object(t_formes *obj,
 				    t_bunny_ini_scope *scope)
 {
   obj->name = my_strdup(bunny_ini_scope_name(ini, scope));
-  obj->type = my_strdup(GET_F(scope, "type", 0));
-  obj->spot = my_strdup(GET_F(scope, "spot", 0));
+  obj->type = my_getnbr((char *)GET_F(scope, "type", 0)) % 2;
+  obj->spot = my_getnbr((char *)GET_F(scope, "spot", 0)) % 2;
   obj->pos.x = my_getdouble((char *)(GET_F(scope, "pos", 0)));
   obj->pos.y = my_getdouble((char *)(GET_F(scope, "pos", 1)));
   obj->pos.z = my_getdouble((char *)(GET_F(scope, "pos", 2)));
@@ -69,7 +69,7 @@ t_formes		*rtload(const char *file)
     {
       if (!(tmp = bunny_malloc(sizeof(t_formes))))
 	return (my_puterror_null(ALLOC_ERR));
-      if ((my_strcmp((char *)GET_F(scope, "type", 0), "spot")))
+      if (my_getnbr((char *)GET_F(scope, "type", 0)) < 2)
 	{
 	  init_object(tmp, ini, scope);
 	  add_ptr_last(objects, tmp);
@@ -97,7 +97,7 @@ t_formes		*rtload_spots(const char *file)
     {
       if (!(tmp = bunny_malloc(sizeof(t_formes))))
 	return (my_puterror_null(ALLOC_ERR));
-      if (!(my_strcmp((char *)GET_F(scope, "type", 0), "spot")))
+      if (my_getnbr((char *)GET_F(scope, "type", 0)) == 2)
 	{
 	  init_object(tmp, ini, scope);
 	  add_ptr_last(objects, tmp);
